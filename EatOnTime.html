@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EatOnTime</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#f4f6f2;--sf:#fff;--ink:#17221d;--mu:#62706a;--ln:#dde3dc;--ac:#1f5e4b;--acs:#e3efe9;--hi:#b9791a;--on:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111815;--sf:#19231f;--ink:#e9efeb;--mu:#98a79f;--ln:#2a3731;--ac:#6fc2a5;--acs:#1e332b;--hi:#e0a54a;--on:#0d1a15;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111815;--sf:#19231f;--ink:#e9efeb;--mu:#98a79f;--ln:#2a3731;--ac:#6fc2a5;--acs:#1e332b;--hi:#e0a54a;--on:#0d1a15;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Instrument Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;line-height:1.15;margin:0}
+main{max-width:760px;margin:0 auto;padding:28px 20px 64px}
+.logo{font:600 20px Fraunces,Georgia,serif;letter-spacing:.2px}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+.hero{text-align:center;padding:40px 0 28px}
+.hero h1{font-size:clamp(40px,8vw,64px)}
+.hero p{color:var(--mu);font-size:19px;margin:10px 0 0}
+.menu{display:grid;grid-template-columns:120px 1fr;gap:18px;background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:16px;margin-bottom:14px}
+.pic{display:grid;place-items:center;border-radius:10px;font-size:44px;background:var(--acs);aspect-ratio:1;align-self:start}
+.menu h2{font-size:26px}
+.menu p{margin:6px 0;color:var(--mu)}
+.dishes{font-size:15px;color:var(--ink)}
+.dur{font-weight:600;font-size:15px}
+.btn{background:var(--ac);color:var(--on);border:0;border-radius:8px;padding:10px 20px;font-weight:600}
+.btn.ghost{background:none;color:var(--ac);border:1px solid var(--ln)}
+.menu .btn{margin-top:8px}
+dialog{border:1px solid var(--ln);border-radius:16px;background:var(--sf);color:var(--ink);padding:28px;width:min(380px,92vw);text-align:center}
+dialog::backdrop{background:rgba(10,20,15,.55)}
+dialog h2{font-size:26px;margin-bottom:18px}
+dialog label{display:block;font-weight:600;margin:16px 0 8px}
+.x{position:absolute;right:12px;top:10px;background:none;border:0;font-size:24px;color:var(--mu)}
+.step{display:inline-flex;border:1px solid var(--ln);border-radius:10px;overflow:hidden}
+.step button{width:48px;border:0;background:var(--acs);color:var(--ac);font-size:22px}
+.step output{min-width:64px;display:grid;place-items:center;font-size:22px;font-weight:600}
+.hint{display:block;color:var(--mu);font-size:13px;margin-top:6px}
+input[type=time]{font:inherit;font-size:20px;padding:8px 12px;border:1px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--ink)}
+dialog .btn{margin-top:26px;width:100%;padding:13px;font-size:17px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.start{text-align:center;padding:36px 16px 30px}
+.start small{display:block;color:var(--mu);font-size:17px}
+.start .t{font:600 clamp(56px,16vw,104px)/1 Fraunces,Georgia,serif;color:var(--hi);margin:6px 0 10px;font-variant-numeric:lining-nums}
+.start .s{color:var(--mu)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--ln);margin-top:8px}
+.tabs button{flex:1;background:none;border:0;padding:12px 6px;font-weight:600;color:var(--mu);border-bottom:3px solid transparent;margin-bottom:-1px}
+.tabs button[aria-selected=true]{color:var(--ac);border-color:var(--ac)}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:22px;margin-top:16px}
+.rec{display:grid;grid-template-columns:200px 1fr;gap:22px}
+.rec .pic{font-size:72px;aspect-ratio:4/3}
+.rec h2{font-size:26px;margin-bottom:4px}
+.meta{color:var(--mu);font-size:14px;margin:0 0 14px}
+h3{font-size:20px;margin-bottom:10px}
+ul{list-style:none;padding:0;margin:0}
+.ing li{padding:5px 0}
+.ing label,.tl label{display:flex;gap:10px;align-items:baseline;cursor:pointer}
+input[type=checkbox]{accent-color:var(--ac);width:18px;height:18px;flex:none;transform:translateY(3px)}
+.ing input:checked+span,.tl input:checked~span{text-decoration:line-through;color:var(--mu)}
+details{margin-top:16px}
+summary{cursor:pointer;font-weight:600;color:var(--ac)}
+ol{padding-left:22px;margin:10px 0 0}
+ol li{padding:3px 0}
+ol small{color:var(--mu)}
+.tl{position:relative;margin-top:6px}
+.tl li{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--ln)}
+.tl li:first-child{border-top:0}
+.tl time{font:600 19px Fraunces,Georgia,serif;font-variant-numeric:lining-nums}
+.tl .d{color:var(--mu);font-size:14px}
+.tl .mk{background:var(--acs);border-radius:8px;padding:10px 8px;margin:4px -8px;border:0}
+.tl .mk strong{color:var(--ac)}
+.tip{display:block;color:var(--mu);font-size:14px;margin-top:3px}
+.left{font-weight:600;font-size:18px;margin-top:16px}
+.bar{height:6px;border-radius:3px;background:var(--ln);max-width:320px;margin:8px auto 0;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ac);transition:width .3s}
+.pre{background:var(--acs);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:15px}
+.hide{display:none}
+@media(max-width:560px){.menu{grid-template-columns:84px 1fr}.pic{font-size:32px}.rec{grid-template-columns:1fr}.rec .pic{aspect-ratio:3/1;font-size:56px}}
+@media(prefers-reduced-motion:no-preference){.start .t{animation:pop .5s ease-out}@keyframes pop{from{opacity:0;transform:translateY(8px)}}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+
+<dialog id="dlg" aria-labelledby="dt">
+<button class="x" aria-label="Zavřít" onclick="dlg.close()">×</button>
+<h2 id="dt">Kolik vás bude?</h2>
+<label for="g">Počet hostů</label>
+<div class="step"><button aria-label="Ubrat hosta" onclick="chg(-1)">−</button><output id="g">4</output><button aria-label="Přidat hosta" onclick="chg(1)">+</button></div>
+<span class="hint">maximum je 12</span>
+<label for="tm">Vše hotovo v (příchod hostů)</label>
+<input type="time" id="tm" value="18:00">
+<button class="btn" onclick="gen()">Vygenerovat plán</button>
+</dialog>
+
+<script>
+// Pomocná data: [název, množství na osobu, jednotka]; kroky: "text~minuty~souběžně s"
+const R={
+b:{e:"🍅",n:"Bruschetta s rajčaty a bazalkou",t:"Celkem 25 min, aktivně 15 min",p:"Rajčatovou směs lze připravit až hodinu předem, pečivo opékejte až těsně před podáváním.",
+i:[["Bageta nebo ciabatta (2 plátky)",60,"g"],["Zralá rajčata",100,"g"],["Česnek (stroužky)",.5,"ks"],["Olivový olej",10,"ml"],["Čerstvá bazalka",3,"g"],["Sůl, pepř"]],
+s:["Rajčata nakrájet na kostičky, smíchat s olejem, solí, pepřem a natrhanou bazalkou~5","Směs nechat marinovat~10~krok 3","Plátky pečiva opéct v troubě na 200 °C (nebo na suché pánvi)~6~krok 2","Teplé pečivo potřít česnekem~1","Na pečivo naložit rajčatovou směs a hned podávat~2"]},
+c:{e:"🍝",n:"Špagety carbonara",t:"Celkem 25 min, aktivně 20 min",p:"Nelze připravit předem.",
+i:[["Špagety",90,"g"],["Pancetta (nebo guanciale)",40,"g"],["Vaječný žloutek",1,"ks"],["Parmesan nebo pecorino",15,"g"],["Černý pepř, sůl"]],
+s:["Dát vařit dobře osolenou vodu~8~krok 2","Pancettu nakrájet a opéct dosucha~6~krok 1","Smíchat žloutky, strouhaný sýr a pepř~3~krok 2","Uvařit špagety al dente (vodu z vaření odlít stranou)~9","Špagety smíchat s pancettou mimo plotnu a zalít žloutkovou směsí, případně zředit vodou z vaření~2"]},
+p:{e:"🍮",n:"Panna cotta s malinovým coulis",t:"Celkem 25 min + 4 h chlazení, aktivně 15 min",p:"Ideálně připravte den předem.",
+i:[["Smetana ke šlehání (33 %)",100,"ml"],["Mléko",50,"ml"],["Cukr",20,"g"],["Vanilkový cukr",5,"g"],["Želatina (prášek)",1.5,"g"],["Mražené maliny (coulis)",60,"g"],["Cukr (coulis)",10,"g"],["Citronová šťáva (coulis)",5,"ml"]],
+s:["Želatinu namočit do studené vody~5~krok 2","Smetanu, mléko a cukr ohřát těsně pod bod varu (nevařit)~5~krok 1","Sundat z plotny, vmíchat nabobtnalou želatinu do rozpuštění~1","Nalít do formiček a nechat zchladnout~2","Chladit v lednici~240~krok 6","Coulis: maliny s cukrem a citronem vařit, rozmixovat, přecedit a vychladit~10~krok 5"]},
+o:{e:"🎃",n:"Krémová dýňová polévka",t:"Celkem 40 min, aktivně 20 min",p:"Lze připravit až 2 dny předem, ohřev cca 8 min.",
+i:[["Dýně hokkaido (nemusí se loupat)",200,"g"],["Cibule",40,"g"],["Brambora",50,"g"],["Máslo nebo olej",10,"g"],["Zeleninový vývar",250,"ml"],["Smetana ke šlehání",20,"ml"],["Dýňová semínka na ozdobu",5,"g"],["Sůl, pepř, muškátový oříšek"]],
+s:["Nakrájet dýni, cibuli a brambor~10","Cibuli osmahnout na másle~5","Přidat dýni a brambor, krátce orestovat~2","Zalít vývarem a vařit do měkka~20~krok 5","Opražit dýňová semínka na suché pánvi~3~krok 4","Rozmixovat, zjemnit smetanou, dochutit~5"]},
+r:{e:"🍄",n:"Houbové rizoto",t:"Celkem 45 min, aktivně 40 min",p:"Připravte těsně před podáváním.",
+i:[["Rýže arborio",80,"g"],["Žampiony (nebo směs hub)",120,"g"],["Cibule",30,"g"],["Česnek (stroužky)",.5,"ks"],["Bílé víno (volitelně)",30,"ml"],["Zeleninový vývar",300,"ml"],["Parmesan",20,"g"],["Máslo",15,"g"],["Olej",5,"ml"],["Petrželka",3,"g"],["Sůl, pepř"]],
+s:["Vývar ohřát a držet teplý~5~krok 2","Nakrájet houby, cibuli a česnek~8~krok 1","Houby orestovat na vysokém ohni dozlatova a odložit~7","Cibuli s česnekem osmahnout na másle~3","Přidat rýži, krátce orestovat, podlít vínem a odpařit~4","Po naběračkách přilévat vývar a stále míchat~18","Vmíchat houby~1","Mimo plotnu zamíchat máslo a parmesan, nechat 2 min odpočinout, posypat petrželkou~3"]},
+j:{e:"🍎",n:"Jablečný crumble",t:"Celkem 50 min, aktivně 15 min",p:"Lze upéct dopředu a ohřát 10 min na 160 °C.",
+i:[["Jablka",150,"g"],["Cukr (do jablek)",10,"g"],["Skořice",1,"g"],["Citronová šťáva",5,"ml"],["Hladká mouka (drobenka)",25,"g"],["Studené máslo (drobenka)",20,"g"],["Cukr (drobenka)",20,"g"],["Ovesné vločky (drobenka)",10,"g"]],
+s:["Předehřát troubu na 180 °C~10~kroky 2–3","Jablka oloupat, nakrájet a smíchat s cukrem, skořicí a citronem~7~krok 1","Rukama zpracovat drobenku z mouky, másla, cukru a vloček~5~krok 1","Jablka dát do zapékací misky, posypat drobenkou~3","Péct dozlatova~28","Nechat 5 min odstát~5"]},
+k:{e:"🥗",n:"Pečená řepa s kozím sýrem a ořechy",t:"Celkem 70 min, aktivně 15 min",p:"Řepu lze upéct a oloupat až den předem, podává se při pokojové teplotě.",
+i:[["Červená řepa (střední)",1,"ks"],["Kozí sýr",40,"g"],["Vlašské ořechy",10,"g"],["Rukola",20,"g"],["Olivový olej",10,"ml"],["Med",5,"g"],["Balzamikový ocet",5,"ml"],["Sůl, pepř"]],
+s:["Předehřát troubu na 200 °C~10~krok 2","Řepu omýt a zabalit do alobalu~3~krok 1","Péct do měkka~45","Vychladit, oloupat a nakrájet na plátky~10","Smíchat dresink z oleje, medu, octa, soli a pepře~2","Naaranžovat s rukolou, rozdrobeným sýrem a nasekanými ořechy, zalít dresinkem~3"]},
+s:{e:"🍗",n:"Pečená kuřecí stehna s bramborami",t:"Celkem 70 min, aktivně 15 min",p:"Marinovat lze až 12 h předem, péct těsně před podáváním.",
+i:[["Kuřecí stehno s kůží a kostí",1,"ks"],["Brambory",250,"g"],["Olej",10,"ml"],["Sladká paprika",2,"g"],["Česnek (stroužky)",1,"ks"],["Tymián nebo rozmarýn",1,"g"],["Citron",.25,"ks"],["Sůl, pepř"]],
+s:["Předehřát troubu na 200 °C~10~kroky 2–3","Stehna okořenit olejem, paprikou, česnekem, bylinkami, solí a pepřem~5~krok 1","Brambory nakrájet na čtvrtky a promíchat s olejem a kořením~8~krok 1","Vše dát na plech a péct, v polovině otočit~45","Zkontrolovat propečení (teplota v jádru 75 °C), nechat 5 min odpočinout, podávat s citronem~7"]},
+m:{e:"🍫",n:"Čokoládový mousse",t:"Celkem 20 min + 3 h chlazení, aktivně 20 min",p:"Ideálně připravte den předem.",
+i:[["Hořká čokoláda (min. 55 %)",40,"g"],["Vejce",1,"ks"],["Smetana ke šlehání",50,"ml"],["Cukr",10,"g"],["Sůl (špetka)"]],
+s:["Čokoládu rozpustit ve vodní lázni a nechat vlažnou~5~krok 2","Vejce oddělit, žloutek zamíchat do vlažné čokolády~2~krok 1","Smetanu vyšlehat do měkka~3","Bílek se solí a cukrem našlehat na pevný sníh~4","Do čokolády opatrně vmíchat smetanu, potom sníh~3","Rozdělit do pohárků~1","Chladit v lednici~180"]}};
+
+// Harmonogram: [posun od T v minutách, popis, délka v min]; posun null = den předem / ráno
+const M=[
+{n:"Italské",e:"🇮🇹",d:["b","c","p"],pre:["Den předem: panna cotta (kroky 1–5) a malinové coulis (krok 6)",15,"+ 4 h chlazení"],
+ h:[[-25,"Bruschetta: nakrájet rajčata, smíchat, nechat marinovat (kroky 1–2)",5],[-10,"Opéct pečivo (krok 3)",6],[-2,"Potřít česnekem, naložit rajčata (kroky 4–5)",3],[0,"Podat předkrm",0],[10,"Carbonara: dát vařit vodu, opéct pancettu, smíchat žloutky se sýrem (kroky 1–3)",8],[18,"Uvařit špagety (krok 4)",9],[27,"Smíchat a podat hlavní chod (krok 5)",3],[60,"Panna cottu polít coulis a podat",3]]},
+{n:"Vegetariánské",e:"🌿",d:["o","r","j"],pre:["Ráno nebo den předem: dýňová polévka kompletně (kroky 1–6); crumble: jablka a drobenka do zapékací misky (kroky 2–4), uložit do lednice",55,""],
+ h:[[-20,"Rizoto: nakrájet houby, cibuli a česnek, ohřát vývar (kroky 1–2)",8],[-12,"Orestovat houby a odložit (krok 3), mezitím ohřát polévku",8],[0,"Podat polévku",0],[10,"Rizoto: osmahnout cibuli, přidat rýži, přilévat vývar (kroky 4–6)",25],[30,"Zapnout troubu na 180 °C na crumble",10],[35,"Vmíchat houby, máslo a parmesan, nechat 2 min odpočinout a podat (kroky 7–8)",4],[40,"Vložit crumble do trouby (krok 5)",28],[73,"Crumble nechat 5 min odstát a podat",5]]},
+{n:"Pečené",e:"🔥",d:["k","s","m"],pre:["Den předem: čokoládový mousse (kroky 1–7); řepa: upéct, oloupat a nakrájet (kroky 1–4), uložit do lednice",35,"+ chlazení a pečení"],
+ h:[[-35,"Zapnout troubu na 200 °C, vyndat řepu z lednice, okořenit stehna a připravit brambory (kroky 1–3)",13],[-20,"Plech se stehny a bramborami do trouby (krok 4)",45],[-10,"Řepa: připravit dresink, naaranžovat s rukolou, sýrem a ořechy (kroky 5–6)",5],[0,"Podat předkrm",0],[25,"Stehna hotová: zkontrolovat 75 °C v nejsilnější části, nechat 5 min odpočinout (krok 5)",7],[30,"Podat hlavní chod",0],[60,"Mousse vyndat z lednice a podat",1]]}];
+const COURSES=["Předkrm","Hlavní chod","Dezert"];
+const TIP=[["Rajčata krájejte na drobné kostičky, lépe se pak drží na pečivu a pustí víc chuti.","Plátky pečiva dejte do trouby na 200 °C nebo na suchou pánev, mají být zlatavé a křupavé, ne spálené.","Teplé pečivo lehce potřete rozpůleným stroužkem česneku a na něj dejte rajčatovou směs, aby nezvláčnělo.","Vodu pořádně osolte a dejte ji na plotnu jako první, zbytek stihnete, než se začne vařit. Pancettu opékejte na suché pánvi bez oleje, vypeče se z ní tuk sám.","Špagety vařte jen do al dente a než je slijete, odlijte si hrnek vody z vaření, hodí se na zředění omáčky.","Špagety míchejte s pancettou mimo plotnu, jinak se žloutky srazí na míchaná vajíčka.","Vychladlé panna cotty polijte malinovým coulis a podejte přímo ve formičkách nebo vyklopené na talíř."],
+["Houby, cibuli a česnek nakrájejte předem a vývar nechte tiše hřát v hrnci, studený vývar by rizoto zpomalil.","Houby opékejte na vysokém ohni, aby zhnědly a nepustily vodu, a pak je odložte stranou. Mezitím ohřejte polévku.","Cibuli s česnekem osmahněte na másle, přidejte rýži, zalijte vínem a po částech přilévejte teplý vývar za stálého míchání.","Troubu zapněte včas, aby byla rozpálená, až do ní budete dávat crumble.","Houby vmíchejte až na konec a mimo plotnu přidejte máslo s parmazánem, rizoto má být krémové, ne suché.","Misku s jablky a drobenkou vložte do trouby a pečte dozlatova, drobenka má být křupavá.","Crumble nechte chvíli odstát, šťáva z jablek se zahustí a dezert se lépe nabírá."],
+["Troubu zapněte na 200 °C, stehna okořeňte olejem, paprikou a česnekem a brambory nakrájené na čtvrtky promíchejte s olejem a kořením.","Stehna a brambory dejte na jeden plech a v polovině pečení je otočte, aby se opekly rovnoměrně.","Upečenou řepu nakrájenou na plátky naaranžujte na rukolu, posypte sýrem a ořechy a zalijte dresinkem z oleje, medu a octa.","Teploměr píchněte do nejsilnější části stehna, má ukazovat 75 °C. Maso pak nechte 5 minut odpočinout, bude šťavnatější.","Mousse vyndejte z lednice a nechte krátce přitemperovat, chuť čokolády se tak lépe projeví."]];
+const $=s=>document.querySelector(s),dlg=$("#dlg"),app=$("#app");
+let sel=0,guests=4,tab=1,plan=null,done=new Set();
+const pad=n=>String(n).padStart(2,"0");
+const clock=m=>{m=((m%1440)+1440)%1440;return pad(Math.floor(m/60))+":"+pad(m%60)};
+const dur=m=>{const h=Math.floor(m/60),r=m%60;return (h?h+" h ":"")+(r?r+" min":"")};
+const span=h=>{const a=h.map(x=>x[0]),b=h.map(x=>x[0]+x[2]);return[Math.min(...a),Math.max(...b)]};
+function qty(q,u){let n=q*guests;
+ if(u==="ks"){const r=Math.round(n*2)/2||.5,w=Math.floor(r);return(w?w:"")+(r%1?"½":"")+" ks"}
+ if(u==="g"&&n>=1000)return(Math.round(n/100)/10+"").replace(".",",")+" kg";
+ if(u==="ml"&&n>=1000)return(Math.round(n/100)/10+"").replace(".",",")+" l";
+ n=n<10?Math.round(n*10)/10:Math.round(n);return(n+"").replace(".",",")+" "+u}
+function home(){plan=null;
+ app.innerHTML=`<div class="logo">EatOnTime</div><div class="hero"><h1>EatOnTime</h1><p>Co budeme dnes vařit?</p></div>`+
+ M.map((m,i)=>{const[a,z]=span(m.h);return`<article class="menu"><div class="pic" aria-hidden="true">${m.e}</div><div><h2>Menu ${i+1}: ${m.n}</h2><p class="dishes">${m.d.map(k=>R[k].n).join(", ")}</p><p class="dur">Doba vaření: cca ${dur(Math.round((z-a)/5)*5)}</p><button class="btn" onclick="pick(${i})">Vybrat</button></div></article>`}).join("");
+ scrollTo(0,0)}
+function pick(i){sel=i;dlg.showModal()}
+function chg(d){guests=Math.min(12,Math.max(1,guests+d));$("#g").textContent=guests}
+function gen(){const v=$("#tm").value;if(!v){$("#tm").focus();return}
+ const[h,m]=v.split(":").map(Number);plan={T:h*60+m};done=new Set();dlg.close();tab=1;view();scrollTo(0,0)}
+function view(){const m=M[sel],T=plan.T,[a,z]=span(m.h),sh=T-z,rk=R[m.d[tab]],fx=t=>t.replace("Smíchat a podat hlavní chod","Smíchat špagety s pancettou a žloutkovou směsí").replace(/ a podat \(/," (").replace(/ a podat$/,"");
+ const rows=m.h.filter(x=>x[2]).map((x,i)=>`<li><time>${clock(x[0]+sh)}</time><label><input type="checkbox" ${done.has(i)?"checked":""} onchange="tick(${i},this.checked)"><span>${fx(x[1])} <span class="d">(${x[2]} min)</span><span class="tip">${TIP[sel][i]}</span></span></label></li>`).join("")+`<li class="mk"><time>${clock(T)}</time><span><strong>Hosté dorazili, vše je hotové.</strong> Teplá jídla držte v troubě na 80 °C, dezert v lednici.</span></li>`;
+ app.innerHTML=`<div class="top"><div class="logo">EatOnTime</div><button class="btn ghost" onclick="home()">Změnit menu</button></div>
+ <section class="start"><small>Začněte vařit v</small><div class="t">${clock(a+sh)}</div><div class="s">Menu ${sel+1}: ${m.n} pro ${guests} ${guests===1?"osobu":guests<5?"osoby":"osob"}. Vše bude hotové v ${clock(T)}, než hosté dorazí.</div><div class="left" id="left"></div><div class="bar"><i id="bar"></i></div></section>
+ <div class="tabs" role="tablist">${COURSES.map((c,i)=>`<button role="tab" aria-selected="${i===tab}" onclick="tab=${i};view()">${c}</button>`).join("")}</div>
+ <section class="card rec"><div class="pic" aria-hidden="true">${rk.e}</div><div><h2>${rk.n}</h2><p class="meta">${rk.t}. ${rk.p}</p>
+ <h3>Ingredience</h3><ul class="ing">${rk.i.map(x=>`<li><label><input type="checkbox"><span>${x[0]}${x[1]?`: <strong>${qty(x[1],x[2])}</strong>`:" dle chuti"}</span></label></li>`).join("")}</ul></div>
+ <details style="grid-column:1/-1"><summary>Postup receptu</summary><ol>${rk.s.map(s=>{const[t,mn,w]=s.split("~");return`<li>${t} <small>(${mn>=60?dur(+mn):mn+" min"}${w?", souběžně s: "+w:""})</small></li>`}).join("")}</ol></details></section>
+ <section class="card"><h3>Postup přípravy</h3><div class="pre">${m.pre[0]} <small>(${m.pre[1]} min aktivně ${m.pre[2]})</small></div><ul class="tl">${rows}</ul></section>`;upd()}
+function upd(){const c=M[sel].h.filter(x=>x[2]),[a,z]=span(M[sel].h);let last=a;done.forEach(i=>{last=Math.max(last,c[i][0]+c[i][2])});const left=z-last;
+$("#left").textContent=left>0?"Do hotového jídla zbývá "+dur(left):"Hotovo, můžete otevřít dveře hostům";$("#bar").style.width=(100-left/(z-a)*100)+"%"}
+function tick(i,v){v?done.add(i):done.delete(i);upd()}
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+home();
+</script>
+</body>
+</html>
